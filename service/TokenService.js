@@ -12,7 +12,6 @@ class TokenService {
         const UserWithToken = await TokenModel.findOne({ user: userId });
 
         if (UserWithToken) {
-            console.log(UserWithToken);
             UserWithToken.refresh = refreshToken;
             return UserWithToken.save()
         }

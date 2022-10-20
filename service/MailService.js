@@ -1,15 +1,18 @@
+import dotenv from "dotenv";
+dotenv.config()
 import nodemailer from "nodemailer";
+console.log(process.env);
 
 class MailService {
 
     constructor() {
         this.transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
+            host: process.env.SMTP_HOST,
+            port: process.env.SMTP_PORT,
             secure: false,
             auth: {
-                user: "",
-                pass: "qiraqvpjdcjemuat",
+                user: process.env.SMTP_EMAIL,
+                pass: process.env.SMTP_PASS,
             },
         })
     }
@@ -17,7 +20,7 @@ class MailService {
 
     async sendLink(to, link) {
         await this.transporter.sendMail({
-            from: "",
+            from: process.env.SMTP_EMAIL,
             to: to,
             subject: "Hello",
             text: "Hello world?",

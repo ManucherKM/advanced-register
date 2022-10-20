@@ -1,10 +1,9 @@
-import dotenv from "dotenv"; dotenv.config();
+import * as dotenv from "dotenv"; dotenv.config();
 import express from "express";
 import cors from "cors"
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import router from "./Routes/routes.js";
-
+import router from "./routes/routes.js";
 const PORT = process.env.PORT || 4000;
 
 const app = express();
