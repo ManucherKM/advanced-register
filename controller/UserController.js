@@ -41,12 +41,12 @@ class UserController {
             }
 
             const user = await UserService.register(req.body.email, req.body.password);
-            
+
             res.cookie("refreshToken", user.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 60 * 1000, //Токен будет работать 30 дней
                 httpOnly: true                         //Пользователь не сможет изменять куки в браузере
             })
-            
+
             return res.status(200).json(user)
         } catch (e) {
             console.log(e);
@@ -84,6 +84,16 @@ class UserController {
 
     async logout(req, res) {
         try {
+            const { refreshToken } = req.cookies;
+
+            const token = await UserService.logout(refreshToken);
+
+            res.clearCookie("refreshToken");
+
+            res.json({
+                message: "Вы вышли из учетной записи",
+                tokenInfo: token
+            })
 
         } catch (e) {
             console.log(e);
@@ -96,6 +106,16 @@ class UserController {
     async refresh(req, res) {
         try {
 
+            const { refreshToken } = req.cookies;
+
+            const user = await UserService.refresh(refreshToken)
+
+            res.cookie("refreshToken", user.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 60 * 1000,            //Токен будет работать 30 дней
+                httpOnly: true                                    //Пользователь не сможет изменять куки в браузере
+            });
+
+            res.status(200).json({ ...user })
         } catch (e) {
             console.log(e);
             res.status(500).json({
