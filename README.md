@@ -39,6 +39,6 @@ SMTP_EMAIL=
 SMTP_PASS=
 ```
 
-* Launch the api using the `npm start` command.
+* Launch the api using the `npm run start` command.
 
 If you have followed all the instructions correctly, the api should work.
